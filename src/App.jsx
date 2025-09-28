@@ -51,6 +51,11 @@ export function App() {
             </button>
             {showSpeed === "" ? <p>{speed}</p> : ""}
           </div>
+          <div>
+            <button className="myBtn text-red-400" onClick={() => setTimer(0)}>
+              Reset{" "}
+            </button>
+          </div>
         </div>
       </div>
     </>
