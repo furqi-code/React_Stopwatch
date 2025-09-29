@@ -46,17 +46,26 @@ export function App() {
     <>
       <div className="flex justify-center items-center mt-24 p-4">
         <div className="flex items-center justify-around w-[920px] gap-6">
-          <button className={blueBtnClass} onClick={() => setSpeed(speed / 2)}>
+          <button
+            className={blueBtnClass}
+            onClick={() => {
+              // increase speed, but not more than 32x faster or less than 50 ms
+              if (speed > 50) setSpeed(speed / 2);
+            }}
+          >
             Increase Speed
           </button>
           <h1 className="text-4xl font-semibold select-none">
-            {hours} <span className="text-2xl">hr</span> : {minutes}
+            {hours} <span className="text-2xl">hr</span> : {minutes}{" "}
             <span className="text-2xl">min</span> : {seconds}{" "}
             <span className="text-2xl">sec</span>
           </h1>
           <button
             className={yellowBtnClass}
-            onClick={() => setSpeed(speed * 2)}
+            onClick={() => {
+              // decrease speed, but not more than 16x slower or more than 16K ms
+              if (speed < 16000) setSpeed(speed * 2);
+            }}
           >
             Decrease Speed
           </button>
