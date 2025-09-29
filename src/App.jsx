@@ -1,20 +1,31 @@
 import { useState, useEffect } from "react";
 
 export function App() {
-  const [timer, setTimer] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [hours, setHours] = useState(0);
   const [speed, setSpeed] = useState(1000);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     if (!isRunning) return;
     const interval_id = setInterval(() => {
-      setTimer((prevTime) => prevTime + 1);
+      setSeconds((prevSeconds) => prevSeconds + 1);
     }, speed);
 
     return () => {
       clearInterval(interval_id);
     };
   }, [speed, isRunning]);
+
+  if (seconds === 60) {
+    setMinutes((prevMinutes) => prevMinutes + 1);
+    setSeconds(0);
+  }
+  if (minutes === 60) {
+    setHours((prevHours) => prevHours + 1);
+    setMinutes(0);
+  }
 
   const blueBtnClass =
     "px-4 py-2 rounded border-2 border-blue-500 text-blue-500 hover:bg-blue-50 cursor-grab";
@@ -34,12 +45,14 @@ export function App() {
   return (
     <>
       <div className="flex justify-center items-center mt-24 p-4">
-        <div className="flex items-center justify-around w-[720px] gap-6">
+        <div className="flex items-center justify-around w-[920px] gap-6">
           <button className={blueBtnClass} onClick={() => setSpeed(speed / 2)}>
             Increase Speed
           </button>
           <h1 className="text-4xl font-semibold select-none">
-            {timer} <span className="text-2xl">sec</span>
+            {hours} <span className="text-2xl">hr</span> : {minutes}
+            <span className="text-2xl">min</span> : {seconds}{" "}
+            <span className="text-2xl">sec</span>
           </h1>
           <button
             className={yellowBtnClass}
@@ -64,7 +77,9 @@ export function App() {
           <button
             className={greyBtnClass}
             onClick={() => {
-              setTimer(0);
+              setSeconds(0);
+              setMinutes(0);
+              setHours(0);
               setSpeed(1000);
               setIsRunning(false);
             }}
